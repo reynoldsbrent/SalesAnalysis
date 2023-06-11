@@ -90,8 +90,20 @@ plt.show()
 # customers buying the product?
 
 all_data['Order Date'] = pd.to_datetime(all_data['Order Date'])
-#print(all_data.head())
+
 
 all_data['Hour'] = all_data['Order Date'].dt.hour
 all_data['Minute'] = all_data['Order Date'].dt.minute
-print(all_data.head())
+
+hours = [hour for hour, df in all_data.groupby('Hour')]
+
+'''
+plt.plot(hours, all_data.groupby(['Hour']).count())
+plt.xticks(hours)
+plt.xlabel('Hour')
+plt.ylabel('Number of Orders')
+plt.grid()
+plt.show()
+'''
+# Peak orders at 11am and 7pm
+
