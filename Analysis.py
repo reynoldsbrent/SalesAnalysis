@@ -1,6 +1,8 @@
 import pandas as pd
 import os
 import matplotlib.pyplot as plt
+import openpyxl
+
 df = pd.read_csv("./Sales_Data/Sales_April_2019.csv")
 
 
@@ -44,9 +46,26 @@ results = all_data.groupby('Month').sum()
 
 months = range(1, 13)
 
+# Sales in USD by Month
+
 plt.bar(months, results['Sales'])
 plt.xticks(months)
 plt.ylabel('Sales in USD ($)')
 plt.xlabel('Month number')
-plt.show()
+#plt.show()
+
+# What US City had the highest number of sales
+
+# Add a city column
+
+# Use .apply()
+
+def get_city(address):
+    return address.split(',')[1]
+
+def get_state(address):
+    return address.split(',')[2]
+
+all_data['City'] = all_data['Purchase Address'].apply(lambda x: get_city(x) + ' ' + get_state(x))
+print(all_data.head())
 
