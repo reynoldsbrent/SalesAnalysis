@@ -76,7 +76,7 @@ results = all_data.groupby('City').sum()
 
 
 cities = [city for city, df in all_data.groupby('City')]
-
+'''
 plt.ticklabel_format(style = 'plain')
 plt.bar(cities, results['Sales'])
 plt.xticks(cities, rotation = 'vertical', size = 8)
@@ -84,3 +84,14 @@ plt.ylabel('Sales in USD ($)')
 plt.xlabel('City name')
 plt.tight_layout()
 plt.show()
+'''
+
+# What time should we display advertisements to maximize the likelihood of 
+# customers buying the product?
+
+all_data['Order Date'] = pd.to_datetime(all_data['Order Date'])
+#print(all_data.head())
+
+all_data['Hour'] = all_data['Order Date'].dt.hour
+all_data['Minute'] = all_data['Order Date'].dt.minute
+print(all_data.head())
