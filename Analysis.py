@@ -2,6 +2,7 @@ import pandas as pd
 import os
 import matplotlib.pyplot as plt
 import openpyxl
+import numpy as np
 
 df = pd.read_csv("./Sales_Data/Sales_April_2019.csv")
 
@@ -48,11 +49,13 @@ months = range(1, 13)
 
 # Sales in USD by Month
 
+'''
 plt.bar(months, results['Sales'])
 plt.xticks(months)
 plt.ylabel('Sales in USD ($)')
 plt.xlabel('Month number')
-#plt.show()
+plt.show()
+'''
 
 # What US City had the highest number of sales
 
@@ -64,8 +67,20 @@ def get_city(address):
     return address.split(',')[1]
 
 def get_state(address):
-    return address.split(',')[2]
+    return address.split(',')[2].split(' ')[1]
 
-all_data['City'] = all_data['Purchase Address'].apply(lambda x: get_city(x) + ' ' + get_state(x))
-print(all_data.head())
+all_data['City'] = all_data['Purchase Address'].apply(lambda x: get_city(x) + ' (' + get_state(x) + ')')
 
+results = all_data.groupby('City').sum()
+#print(results)
+
+
+cities = [city for city, df in all_data.groupby('City')]
+
+plt.ticklabel_format(style = 'plain')
+plt.bar(cities, results['Sales'])
+plt.xticks(cities, rotation = 'vertical', size = 8)
+plt.ylabel('Sales in USD ($)')
+plt.xlabel('City name')
+plt.tight_layout()
+plt.show()
