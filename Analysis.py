@@ -110,7 +110,7 @@ plt.show()
 # Peak orders at 11am and 7pm
 
 # What products are most often sold together?
-
+'''
 df = all_data[all_data['Order ID'].duplicated(keep = False)]
 
 df['Grouped'] = df.groupby('Order ID')['Product'].transform(lambda x: ',' .join(x))
@@ -125,5 +125,33 @@ for row in df['Grouped']:
 
 for key, value in count.most_common(10):
     print(key, value)
+'''
+# What product sold the most? Why do you think it sold the most?
 
-    
+product_group = all_data.groupby('Product')
+quantity_ordered = product_group.sum(numeric_only = True)['Quantity Ordered']
+prices = all_data.groupby('Product').mean(numeric_only = True)['Price Each']
+products = [product for product, df in product_group]
+'''
+plt.ticklabel_format(style = 'plain')
+plt.bar(products, quantity_ordered)
+plt.xticks(products, rotation = 'vertical', size = 8)
+plt.ylabel('Quantity Ordered')
+plt.xlabel('Product')
+plt.tight_layout()
+'''
+
+fig, ax1 = plt.subplots()
+
+ax2 = ax1.twinx()
+ax1.bar(products, quantity_ordered)
+ax2.plot(products, prices, 'b-')
+
+ax1.set_xlabel('Product Name')
+ax1.set_ylabel('Quantity Ordered', color = 'g')
+ax2.set_ylabel('Price ($)', color = 'b')
+ax1.set_xticklabels(products, rotation = 'vertical', size = 8)
+plt.tight_layout()
+plt.show()
+
+
