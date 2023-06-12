@@ -144,7 +144,7 @@ plt.tight_layout()
 fig, ax1 = plt.subplots()
 
 ax2 = ax1.twinx()
-ax1.bar(products, quantity_ordered)
+ax1.bar(products, quantity_ordered, color = 'g')
 ax2.plot(products, prices, 'b-')
 
 ax1.set_xlabel('Product Name')
