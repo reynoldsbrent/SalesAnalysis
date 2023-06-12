@@ -3,6 +3,8 @@ import os
 import matplotlib.pyplot as plt
 import openpyxl
 import numpy as np
+from itertools import combinations
+from collections import Counter
 
 df = pd.read_csv("./Sales_Data/Sales_April_2019.csv")
 
@@ -107,3 +109,21 @@ plt.show()
 '''
 # Peak orders at 11am and 7pm
 
+# What products are most often sold together?
+
+df = all_data[all_data['Order ID'].duplicated(keep = False)]
+
+df['Grouped'] = df.groupby('Order ID')['Product'].transform(lambda x: ',' .join(x))
+
+df = df[['Order ID', 'Grouped']].drop_duplicates()
+
+count = Counter()
+
+for row in df['Grouped']:
+    row_list = row.split(',')
+    count.update(Counter(combinations(row_list, 2)))
+
+for key, value in count.most_common(10):
+    print(key, value)
+
+    
